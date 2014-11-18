@@ -1,0 +1,121 @@
+% render "layouts/basic.html" do
+
+%# HTML tags can be embedded in mark down files if you want to do specific custom
+%# formatting like this, but in most cases that is not required.
+<h1><%= RGen.config.name %> <span style="font-size: 14px">(<%= RGen.app.version %>)</span></h1>
+
+### Purpose
+
+This plugin provides a common API for easily reading memory image files in any format
+so that their contained data can then be used in RGen:
+
+~~~ruby
+# Read in an s-record
+srec = MemoryImage.new("srecs/test_atd.abs.S19")
+
+# Write it to the DUT, or otherwise work with it, however you like
+$dut.arm_debug.jtag_read_write.array_to_mem(srec.to_a)
+~~~
+
+### How To Import
+
+Add the following to your <code>config/application.rb</code> file to import
+this plugin:
+
+~~~ruby
+config.imports = [
+  {
+    vault: "<%= RGen.config.vault %>",
+    version: "<%= RGen.app.version %>",
+  }
+]
+~~~
+
+### How To Use
+
+Create a memory map object that points to a specific source file, note that
+you do not need to supply the format.
+Also note that the format is detected by looking at the file content and the naming
+and extension of the file has no relevance (so it can be called anything).
+
+The path to the file can be absolute or relative to <code>RGen.root</code>:
+
+~~~ruby
+my_srec = MemoryImage.new("source_files/test_atd.abs.S19")
+my_hex  = MemoryImage.new("source_files/math.hex")
+~~~
+
+Every memory image object then supports a common API.
+
+The <code>start_address</code> method returns the start (execution start) address:
+
+~~~ruby
+my_srec.start_address   # => 0x3000_F000
+~~~
+
+The <code>to_a</code> method returns the file content as an array of address/data pairs,
+this method supports options to set the data width and to flip the data endianness:
+
+~~~ruby
+my_srec.to_a                          # => [[0x3000_F000, 0x11223344], [0x3000_F004, 0x55667788], ...]
+
+my_srec.to_a(flip_endianness: true)   # => [[0x3000_F000, 0x44332211], [0x3000_F004, 0x88776655], ...]
+
+my_srec.to_a(data_width_in_bytes: 2)  # => [[0x3000_F000, 0x1122], [0x3000_F002, 0x3344], [0x3000_F004, 0x5566], ...]
+~~~
+
+### Currently Supported Formats
+
+#### S-Records
+
+Any valid S-record:
+
+~~~text
+S017000068656C6C6F5F776F726C645F6576622E73726563D6
+S3153F00002018F09FE518F09FE518F09FE518F09FE55B
+S3153F00003018F09FE500F020E314F09FE514F09FE5EC
+S3113F000270F406003F102100407800003FDC
+S3153F0005B05FF0FF301B4908605FF0FF301A49086063
+S3093F0006F0704700000A
+S7053F000410A7
+~~~
+
+#### Hex Files
+
+The data lines can be grouped into any size:
+
+~~~text
+@18000000
+1E E0 02 1C 22 40 1B E0 02 1C 22 43 18 E0 02 1C 
+5A 78 0A 43 03 E0 03 4B F7 21 5A 78 0A 40 00 20 
+22 E0 84 42 22 D3 1F E0 84 42 1F D9 1C E0 84 42 
+@180000E0
+002B20D1 03E0012A 01D1002B 1BD00223 
+2340022A 02D1002B 15D103E0 032A01D1 
+@180001F0
+780000187C0000188200001888000018 
+~~~
+
+### How To Setup a Development Environment
+
+~~~text
+mkdir <%= RGen.app.config.initials.downcase %>
+cd <%= RGen.app.config.initials.downcase %>
+dssc setvault <%= RGen.app.config.vault %> .
+dssc pop -rec -get .
+~~~
+
+Follow the instructions here if you want to make a 3rd party app
+workspace use your development copy of the <%= RGen.config.name %> plugin:
+[Setting up a Plugin Development Environment](http://rgen.freescale.net/rgen/latest/guides/libraries/environment)
+
+This plugin also contains a test suite, makes sure this passes before committing
+any changes!
+
+~~~text
+rgen specs
+~~~
+
+<%= yammer_comments %>
+
+% end
