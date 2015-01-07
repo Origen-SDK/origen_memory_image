@@ -180,15 +180,15 @@ module MemoryImage
     # any scrambling as required by the target system
     def extract_addr_data(options = {})
       options = {
-        data_width_in_bytes: 4,
+        data_width_in_bytes: 4
       }.merge(options)
 
       result = []
       File.readlines(file).each do |line|
-         # Only if the line is an s-record with data...
+        # Only if the line is an s-record with data...
         if line =~ /^S([1-3])/
           type = Regexp.last_match[1].to_i(16)    # S-record type, 1-3
-            # Set the matcher to capture x number of bytes dependent on the s-rec type
+          # Set the matcher to capture x number of bytes dependent on the s-rec type
           addr_matcher = '\w\w' * (1 + type)
           line.strip =~ /^S\d\w\w(#{addr_matcher})(\w*)\w\w$/   # $1 = address, $2 = data
           addr = Regexp.last_match[1].to_i(16)
@@ -200,7 +200,7 @@ module MemoryImage
             result << [addr, data_packet.to_i(16)]
             addr += options[:data_width_in_bytes]
           end
-            # If a partial word is left over
+          # If a partial word is left over
           if (remainder = data.length % (2 * options[:data_width_in_bytes])) > 0
             result << [addr, data[data.length - remainder..data.length].to_i(16)]
           end

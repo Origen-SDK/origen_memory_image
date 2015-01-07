@@ -63,31 +63,31 @@ when "specs"
   exit 0 # This will never be hit on a fail, RSpec will automatically exit 1
 
 # Run the example-based (diff) tests
-when "examples"  
-  RGen.load_application
-  status = 0
-  enable_coverage("examples") do 
-
-    # Compiler tests
-    ARGV = %w(templates/example.txt.erb -t debug -r approved)
-    load "rgen/commands/compile.rb"
-    # Pattern generator tests
-    #ARGV = %w(some_pattern -t debug -r approved)
-    #load "#{RGen.top}/lib/rgen/commands/generate.rb"
-
-    if RGen.app.stats.changed_files == 0 &&
-       RGen.app.stats.new_files == 0 &&
-       RGen.app.stats.changed_patterns == 0 &&
-       RGen.app.stats.new_patterns == 0
-
-      RGen.app.stats.report_pass
-    else
-      RGen.app.stats.report_fail
-      status = 1
-    end
-    puts ""
-  end
-  exit status  # Exit with a 1 on the event of a failure per std unix result codes
+#when "examples"  
+#  RGen.load_application
+#  status = 0
+#  enable_coverage("examples") do 
+#
+#    # Compiler tests
+#    ARGV = %w(templates/example.txt.erb -t debug -r approved)
+#    load "rgen/commands/compile.rb"
+#    # Pattern generator tests
+#    #ARGV = %w(some_pattern -t debug -r approved)
+#    #load "#{RGen.top}/lib/rgen/commands/generate.rb"
+#
+#    if RGen.app.stats.changed_files == 0 &&
+#       RGen.app.stats.new_files == 0 &&
+#       RGen.app.stats.changed_patterns == 0 &&
+#       RGen.app.stats.new_patterns == 0
+#
+#      RGen.app.stats.report_pass
+#    else
+#      RGen.app.stats.report_fail
+#      status = 1
+#    end
+#    puts ""
+#  end
+#  exit status  # Exit with a 1 on the event of a failure per std unix result codes
 
 # Always leave an else clause to allow control to fall back through to the
 # RGen command handler.
@@ -97,8 +97,8 @@ when "examples"
 else
   @application_commands = <<-EOT
  specs        Run the specs (tests), -c will enable coverage
- examples     Run the examples (tests), -c will enable coverage
   EOT
+# examples     Run the examples (tests), -c will enable coverage
 
   # Uncomment the following and update the path with the file
   # that handles the commands that are shared from this plugin

@@ -1,12 +1,4 @@
 class MemoryImageApplication < RGen::Application
-
-  # See http://rgen.freescale.net/rgen/latest/api/RGen/Application/Configuration.html
-  # for a full list of the configuration options available
-
-  # RGen will ensure that this plugin only ever runs with this version or higher
-  config.min_required_rgen_version = "v2.3.0.dev146"
-
-  config.max_required_rgen_version = "v2.99.99"
   
   # To share resources with the apps that import this plugin uncomment the following attribute:
   #config.shared = {
@@ -20,15 +12,6 @@ class MemoryImageApplication < RGen::Application
   # Shared programs go in the :programs attributes
   #  programs: "programs/shared"
   #}
-
-
-  # Plugins can be imported like this:
-  config.imports_dev = [
-    {
-      :vault => "sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/helpers/Doc_Helpers/tool_data/rgen",
-      :version => "v1.6.1",
-    }
-  ]
 
   # This information is used in headers and email templates, set it specific
   # to your application

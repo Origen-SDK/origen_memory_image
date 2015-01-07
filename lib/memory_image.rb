@@ -1,3 +1,7 @@
+require 'rgen'
+require_relative '../config/application.rb'
+require_relative '../config/environment.rb'
+
 module MemoryImage
   def self.new(file, options = {})
     file ||= RGen.file_handler.clean_path_to(file)

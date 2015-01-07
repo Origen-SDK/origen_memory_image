@@ -2,7 +2,7 @@ module MemoryImage
   class Base
     attr_reader :file
 
-    def initialize(file, options = {})
+    def initialize(file, _options = {})
       @file = file
     end
 
@@ -23,8 +23,8 @@ module MemoryImage
     # the checksum bits are disregarded
     def to_a(options = {})
       options = {
-        flip_endianness: false,
-        data_width_in_bytes: 4,
+        flip_endianness:     false,
+        data_width_in_bytes: 4
       }.merge(options)
       data = extract_addr_data(options)
       if options[:flip_endianness] || options[:endianness_change]

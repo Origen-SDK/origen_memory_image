@@ -1,11 +1,8 @@
-# Best not to edit this by hand, it will be overwritten by the tag script
-class MemoryImageApplication < RGen::Application
-
+module MemoryImage
   MAJOR = 0
-  MINOR = 0
+  MINOR = 1
   BUGFIX = 0
-  DEV = 0
+  DEV = nil
 
-  VERSION = "v" + [MAJOR, MINOR, BUGFIX].join(".") + (DEV ? ".dev#{DEV}" : '')
-
+  VERSION = [MAJOR, MINOR, BUGFIX].join(".") + (DEV ? ".pre#{DEV}" : '')
 end

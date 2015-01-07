@@ -26,12 +26,12 @@ module MemoryImage
     # any scrambling as required by the target system
     def extract_addr_data(options = {})
       options = {
-        data_width_in_bytes: 4,
+        data_width_in_bytes: 4
       }.merge(options)
 
       result = []
       File.readlines(file).each do |line|
-         # Only if the line is an s-record with data...
+        # Only if the line is an s-record with data...
         if line =~ /^@([0-9a-fA-F]+)\s?$/
           @address = Regexp.last_match[1].to_i(16)
         elsif line =~ /^[0-9A-F]/
@@ -44,7 +44,7 @@ module MemoryImage
             result << [@address, data_packet.to_i(16)]
             @address += options[:data_width_in_bytes]
           end
-            # If a partial word is left over
+          # If a partial word is left over
           if (remainder = data.length % (2 * options[:data_width_in_bytes])) > 0
             result << [@address, data[data.length - remainder..data.length].to_i(16)]
           end

@@ -14,22 +14,35 @@ so that their contained data can then be used in RGen:
 srec = MemoryImage.new("srecs/test_atd.abs.S19")
 
 # Write it to the DUT, or otherwise work with it, however you like
-$dut.arm_debug.jtag_read_write.array_to_mem(srec.to_a)
+srec.to_a.each do |addr, data|
+  $dut.write_memory data, address: addr
+end
 ~~~
 
 ### How To Import
 
-Add the following to your <code>config/application.rb</code> file to import
-this plugin:
+##### To use in an application:
+
+Add the following to your application's <code>Gemfile</code>:
 
 ~~~ruby
-config.imports = [
-  {
-    vault: "<%= RGen.config.vault %>",
-    version: "<%= RGen.app.version %>",
-  }
-]
+gem 'memory_image', '<%= RGen.app.version %>'
 ~~~
+
+##### To use in a plugin:
+
+Add the following to your plugin's gemspec:
+
+~~~ruby
+spec.add_runtime_dependency 'memory_image', '~> <%= RGen.app.version.major %>', '>= <%= RGen.app.version %>'
+~~~
+
+and require the gem in your code:
+
+~~~ruby
+require 'memory_image'
+~~~
+
 
 ### How To Use
 
@@ -62,6 +75,14 @@ my_srec.to_a                          # => [[0x3000_F000, 0x11223344], [0x3000_F
 my_srec.to_a(flip_endianness: true)   # => [[0x3000_F000, 0x44332211], [0x3000_F004, 0x88776655], ...]
 
 my_srec.to_a(data_width_in_bytes: 2)  # => [[0x3000_F000, 0x1122], [0x3000_F002, 0x3344], [0x3000_F004, 0x5566], ...]
+~~~
+
+Such an array can be iterated on like this to separate the address and data:
+
+~~~ruby
+my_srec.to_a.each do |address, data|
+  # Process as required
+end
 ~~~
 
 ### Currently Supported Formats
