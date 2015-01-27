@@ -157,7 +157,7 @@ module MemoryImage
 
     def start_address
       @start_address ||= begin
-        File.readlines(file).each do |line|
+        lines.each do |line|
           if line =~ /^S([789])(.*)/
             type = Regexp.last_match[1]
             case type
@@ -184,7 +184,7 @@ module MemoryImage
       }.merge(options)
 
       result = []
-      File.readlines(file).each do |line|
+      lines.each do |line|
         # Only if the line is an s-record with data...
         if line =~ /^S([1-3])/
           type = Regexp.last_match[1].to_i(16)    # S-record type, 1-3

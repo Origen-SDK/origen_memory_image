@@ -36,4 +36,18 @@ describe "Hex" do
     data[1].should == [0x18000004, 0xE01B4022]
     data.size.should == 24
   end
+
+  it "creating from a string works" do
+    str = <<-END
+@2D100E00
+0D 15 0F 13 0E 14 10 12
+00 00 04 17 04 03 05 06
+    END
+    @hex = MemoryImage.new(str, source: String)
+    @hex.start_address.should == 0x2D100E00
+    @hex.to_a.should == [
+      [0x2D100E00, 0x0D150F13], [0x2D100E04, 0x0E141012],
+      [0x2D100E08, 0x00000417], [0x2D100E0C, 0x04030506],
+    ]
+  end
 end

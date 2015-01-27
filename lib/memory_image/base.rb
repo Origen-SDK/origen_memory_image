@@ -1,9 +1,13 @@
 module MemoryImage
   class Base
-    attr_reader :file
+    attr_reader :file, :source
 
-    def initialize(file, _options = {})
-      @file = file
+    def initialize(file, options = {})
+      if options[:source] == String
+        @source = file
+      else
+        @file = file
+      end
     end
 
     # Returns the code execution start address as an int
@@ -50,6 +54,18 @@ module MemoryImage
         v += data[(start + 7)..start] << ((width_in_bytes - i - 1) * 8)
       end
       v
+    end
+
+    def file_name
+      file || 'From source string'
+    end
+
+    def lines
+      if file
+        File.readlines(file)
+      else
+        source.split("\n")
+      end
     end
   end
 end

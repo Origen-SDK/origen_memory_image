@@ -1,3 +1,29 @@
+<a class="anchor release_tag" name="v0_2_0"></a>
+<h1><a href="#v0_2_0">Tag: v0.2.0</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 27-Jan-2015 08:57AM
+
+
+Added ability to create memory image objects directly from a string rather than
+reading from a file:
+
+~~~ruby
+str = <<-END
+@2D100E00
+0D 15 0F 13 0E 14 10 12
+00 00 04 17 04 03 05 06
+END
+
+my\_hex = MemoryImage.new(str, source: String)
+my\_hex.to\_a  # => [
+             #       [0x2D100E00, 0x0D150F13], [0x2D100E04, 0x0E141012],
+             #       [0x2D100E08, 0x00000417], [0x2D100E0C, 0x04030506],
+             #    ]
+~~~
+
+
 <a class="anchor release_tag" name="v0_1_0"></a>
 <h1><a href="#v0_1_0">Tag: v0.1.0</a></h1>
 

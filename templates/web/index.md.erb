@@ -58,6 +58,18 @@ my_srec = MemoryImage.new("source_files/test_atd.abs.S19")
 my_hex  = MemoryImage.new("source_files/math.hex")
 ~~~
 
+Memory images can also be created directly from a string:
+
+~~~ruby
+str = <<-END
+@2D100E00
+0D 15 0F 13 0E 14 10 12
+00 00 04 17 04 03 05 06
+END
+
+my_hex = MemoryImage.new(str, source: String)
+~~~
+
 Every memory image object then supports a common API.
 
 The <code>start_address</code> method returns the start (execution start) address:
@@ -120,10 +132,7 @@ The data lines can be grouped into any size:
 ### How To Setup a Development Environment
 
 ~~~text
-mkdir <%= RGen.app.config.initials.downcase %>
-cd <%= RGen.app.config.initials.downcase %>
-dssc setvault <%= RGen.app.config.vault %> .
-dssc pop -rec -get .
+rgen fetch memory_image
 ~~~
 
 Follow the instructions here if you want to make a 3rd party app

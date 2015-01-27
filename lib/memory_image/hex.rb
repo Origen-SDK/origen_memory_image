@@ -11,7 +11,7 @@ module MemoryImage
     # The first in the file will be taken as the start address
     def start_address
       @start_address ||= begin
-        File.readlines(file).each do |line|
+        lines.each do |line|
           if line =~ /^@([0-9a-fA-F]+)\s?$/
             return Regexp.last_match[1].to_i(16)
           end
@@ -30,13 +30,13 @@ module MemoryImage
       }.merge(options)
 
       result = []
-      File.readlines(file).each do |line|
+      lines.each do |line|
         # Only if the line is an s-record with data...
         if line =~ /^@([0-9a-fA-F]+)\s?$/
           @address = Regexp.last_match[1].to_i(16)
         elsif line =~ /^[0-9A-F]/
           unless @address
-            fail "Hex data found before an @address line in #{file}"
+            fail "Hex data found before an @address line in #{file_name}"
           end
           data = line.strip.gsub(/\s/, '')
           data_matcher = '\w\w' * options[:data_width_in_bytes]

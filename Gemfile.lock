@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    memory_image (0.1.0)
+    memory_image (0.2.0)
       rgen_core (>= 2.5.0.pre27)
 
 GEM
