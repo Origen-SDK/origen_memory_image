@@ -1,6 +1,6 @@
 module OrigenMemoryImage
   MAJOR = 0
-  MINOR = 2
+  MINOR = 5
   BUGFIX = 0
   DEV = nil
 
