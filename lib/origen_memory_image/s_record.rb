@@ -1,4 +1,4 @@
-module MemoryImage
+module OrigenMemoryImage
   # An S-record file consists of a sequence of specially formatted ASCII character strings. An S-record will
   # be less than or equal to 78 bytes in length.
   # The order of S-records within a file is of no significance and no particular order may be assumed.

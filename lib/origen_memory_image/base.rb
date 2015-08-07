@@ -1,4 +1,4 @@
-module MemoryImage
+module OrigenMemoryImage
   class Base
     attr_reader :file, :source
 

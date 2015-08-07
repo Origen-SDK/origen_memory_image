@@ -1,4 +1,4 @@
-module MemoryImage
+module OrigenMemoryImage
   MAJOR = 0
   MINOR = 2
   BUGFIX = 0

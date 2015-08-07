@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "SRecord" do
 
   before :all do
-    @srec = MemoryImage.new("examples/srec1.s19")
+    @srec = OrigenMemoryImage.new("examples/srec1.s19")
   end
 
   it "code_start_address method works" do

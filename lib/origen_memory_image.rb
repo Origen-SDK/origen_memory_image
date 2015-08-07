@@ -1,11 +1,11 @@
-require 'rgen'
+require 'origen'
 require_relative '../config/application.rb'
 require_relative '../config/environment.rb'
 
-module MemoryImage
+module OrigenMemoryImage
   def self.new(file, options = {})
     unless options[:source] == String
-      file = RGen.file_handler.clean_path_to(file)
+      file = Origen.file_handler.clean_path_to(file)
     end
     find_type(file, options).new(file, options)
   end

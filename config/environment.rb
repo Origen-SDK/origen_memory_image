@@ -1,4 +1,4 @@
-# This file will be required by RGen before your target is loaded, you 
+# This file will be required by Origen before your target is loaded, you 
 # can use this to require all of your files, which is the easiest way
 # to get started. As your experience grows you may wish to require only the
 # minimum files required to allow the target to be initialized and let 
@@ -9,7 +9,7 @@
 # in there can be referenced from here with a relative path.
 #
 # Note that pattern files do not need to be referenced from here and these
-# will be located automatically by rgen.
+# will be located automatically by origen.
 #
 # Examples
 # --------
@@ -27,14 +27,14 @@
 #   2. If you want to extend a class defined by an imported plugin, in
 #      this case your must use required and supply a full path (to distinguish
 #      it from the one in the parent application):
-#require "#{RGen.root}/c90_top_level/p2"
+#require "#{Origen.root}/c90_top_level/p2"
 
 # Plugins should not use a wildcard import of the lib directory to help
 # prevent long start up times, only require what is necessary to boot and
 # use autoload for everything else.
-module MemoryImage
-  autoload :Base, "memory_image/base"
-  autoload :SRecord, "memory_image/s_record"
-  autoload :Hex, "memory_image/hex"
+module OrigenMemoryImage
+  autoload :Base, "origen_memory_image/base"
+  autoload :SRecord, "origen_memory_image/s_record"
+  autoload :Hex, "origen_memory_image/hex"
 end
-require "memory_image"
+require "origen_memory_image"

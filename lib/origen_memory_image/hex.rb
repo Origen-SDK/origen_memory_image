@@ -1,4 +1,4 @@
-module MemoryImage
+module OrigenMemoryImage
   class Hex < Base
     def self.match?(snippet)
       snippet.any? do |line|

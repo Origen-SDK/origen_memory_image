@@ -3,12 +3,12 @@ config = File.expand_path('../config', __FILE__)
 require "#{config}/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "memory_image"
-  spec.version       = MemoryImage::VERSION
+  spec.name          = "origen_memory_image"
+  spec.version       = OrigenMemoryImage::VERSION
   spec.authors       = ["Stephen McGinty"]
-  spec.email         = ["r49409@freescale.com"]
+  spec.email         = ["stephen.f.mcginty@gmail.com"]
   spec.summary       = "Provides a standard API for consuming memory image files in any format e.g. s-record, hex"
-  spec.homepage      = "http://rgen.freescale.net/memory_image"
+  spec.homepage      = "http://origen-sdk.org/memory_image"
 
   spec.required_ruby_version     = '>= 1.9.3'
   spec.required_rubygems_version = '>= 1.8.11'
@@ -24,8 +24,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Add any gems that your plugin needs to run within a host application
-  spec.add_runtime_dependency "rgen_core", ">= 2.5.0.pre27"
+  spec.add_runtime_dependency "origen", ">= 0.2.2"
 
   # Add any gems that your plugin needs for its development environment only
-  spec.add_development_dependency "doc_helpers", ">= 1.7.2"
+  spec.add_development_dependency "origen_doc_helpers", ">= 0.2.0"
 end

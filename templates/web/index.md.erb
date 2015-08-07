@@ -2,16 +2,16 @@
 
 %# HTML tags can be embedded in mark down files if you want to do specific custom
 %# formatting like this, but in most cases that is not required.
-<h1><%= RGen.config.name %> <span style="font-size: 14px">(<%= RGen.app.version %>)</span></h1>
+<h1><%= Origen.config.name %> <span style="font-size: 14px">(<%= Origen.app.version %>)</span></h1>
 
 ### Purpose
 
 This plugin provides a common API for easily reading memory image files in any format
-so that their contained data can then be used in RGen:
+so that their contained data can then be used in Origen:
 
 ~~~ruby
 # Read in an s-record
-srec = MemoryImage.new("srecs/test_atd.abs.S19")
+srec = OrigenMemoryImage.new("srecs/test_atd.abs.S19")
 
 # Write it to the DUT, or otherwise work with it, however you like
 srec.to_a.each do |addr, data|
@@ -26,7 +26,7 @@ end
 Add the following to your application's <code>Gemfile</code>:
 
 ~~~ruby
-gem 'memory_image', '<%= RGen.app.version %>'
+gem 'origen_memory_image', '<%= Origen.app.version %>'
 ~~~
 
 ##### To use in a plugin:
@@ -34,13 +34,13 @@ gem 'memory_image', '<%= RGen.app.version %>'
 Add the following to your plugin's gemspec:
 
 ~~~ruby
-spec.add_runtime_dependency 'memory_image', '~> <%= RGen.app.version.major %>', '>= <%= RGen.app.version %>'
+spec.add_runtime_dependency 'origen_memory_image', '~> <%= Origen.app.version.major %>', '>= <%= Origen.app.version %>'
 ~~~
 
 and require the gem in your code:
 
 ~~~ruby
-require 'memory_image'
+require 'origen_memory_image'
 ~~~
 
 
@@ -51,11 +51,11 @@ you do not need to supply the format.
 Also note that the format is detected by looking at the file content and the naming
 and extension of the file has no relevance (so it can be called anything).
 
-The path to the file can be absolute or relative to <code>RGen.root</code>:
+The path to the file can be absolute or relative to <code>Origen.root</code>:
 
 ~~~ruby
-my_srec = MemoryImage.new("source_files/test_atd.abs.S19")
-my_hex  = MemoryImage.new("source_files/math.hex")
+my_srec = OrigenMemoryImage.new("source_files/test_atd.abs.S19")
+my_hex  = OrigenMemoryImage.new("source_files/math.hex")
 ~~~
 
 Memory images can also be created directly from a string:
@@ -67,7 +67,7 @@ str = <<-END
 00 00 04 17 04 03 05 06
 END
 
-my_hex = MemoryImage.new(str, source: String)
+my_hex = OrigenMemoryImage.new(str, source: String)
 ~~~
 
 Every memory image object then supports a common API.
@@ -131,21 +131,17 @@ The data lines can be grouped into any size:
 
 ### How To Setup a Development Environment
 
-~~~text
-rgen fetch memory_image
-~~~
+[Clone the repository from Github](https://github.com/Origen-SDK/origen_memory_image).
 
 Follow the instructions here if you want to make a 3rd party app
-workspace use your development copy of the <%= RGen.config.name %> plugin:
-[Setting up a Plugin Development Environment](http://rgen.freescale.net/rgen/latest/guides/libraries/environment)
+workspace use your development copy of the <%= Origen.app.config.initials %> plugin:
+[Setting up a Plugin Development Environment](http://origen-sdk.org/origen/latest/guides/plugins)
 
 This plugin also contains a test suite, makes sure this passes before committing
 any changes!
 
 ~~~text
-rgen specs
+origen specs
 ~~~
-
-<%= yammer_comments %>
 
 % end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Hex" do
 
   before :all do
-    @hex = MemoryImage.new("examples/hex1.hex")
+    @hex = OrigenMemoryImage.new("examples/hex1.hex")
   end
 
   it "code_start_address method works" do
@@ -43,7 +43,7 @@ describe "Hex" do
 0D 15 0F 13 0E 14 10 12
 00 00 04 17 04 03 05 06
     END
-    @hex = MemoryImage.new(str, source: String)
+    @hex = OrigenMemoryImage.new(str, source: String)
     @hex.start_address.should == 0x2D100E00
     @hex.to_a.should == [
       [0x2D100E00, 0x0D150F13], [0x2D100E04, 0x0E141012],
