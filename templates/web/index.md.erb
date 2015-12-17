@@ -79,14 +79,20 @@ my_srec.start_address   # => 0x3000_F000
 ~~~
 
 The <code>to_a</code> method returns the file content as an array of address/data pairs,
-this method supports options to set the data width and to flip the data endianness:
+this method supports options to set the data width, flip the data endianness, and crop the data
+between starting and ending address:
 
 ~~~ruby
-my_srec.to_a                          # => [[0x3000_F000, 0x11223344], [0x3000_F004, 0x55667788], ...]
+my_srec.to_a                                      # => [[0x3000_F000, 0x11223344], [0x3000_F004, 0x55667788], [0x3000_F008, 0x99AABBCC], ...]
 
-my_srec.to_a(flip_endianness: true)   # => [[0x3000_F000, 0x44332211], [0x3000_F004, 0x88776655], ...]
+my_srec.to_a(flip_endianness: true)               # => [[0x3000_F000, 0x44332211], [0x3000_F004, 0x88776655], [0x3000_F008, 0x99AABBCC], ...]
 
-my_srec.to_a(data_width_in_bytes: 2)  # => [[0x3000_F000, 0x1122], [0x3000_F002, 0x3344], [0x3000_F004, 0x5566], ...]
+my_srec.to_a(data_width_in_bytes: 2)              # => [[0x3000_F000, 0x1122], [0x3000_F002, 0x3344], [0x3000_F004, 0x5566], ...]
+
+my_srec.to_a(crop: [0x3000_F004])                 # => [[0x3000_F004, 0x55667788], [0x3000_F008, 0x99AABBCC], ...]
+
+my_srec.to_a(crop: [0x3000_F000, 0x3000_F004])    # => [[0x3000_F000, 0x11223344], [0x3000_F004, 0x55667788]]
+
 ~~~
 
 Such an array can be iterated on like this to separate the address and data:

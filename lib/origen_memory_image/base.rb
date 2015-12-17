@@ -28,9 +28,26 @@ module OrigenMemoryImage
     def to_a(options = {})
       options = {
         flip_endianness:     false,
-        data_width_in_bytes: 4
+        data_width_in_bytes: 4,
+        crop:                []
       }.merge(options)
       data = extract_addr_data(options)
+
+      if options[:crop].count > 0
+        cropped_data = []
+        data.each do |addr, data|
+          case options[:crop].count
+            when 1
+              cropped_data.push([addr, data]) if addr >= options[:crop][0]
+            when 2
+              cropped_data.push([addr, data]) if addr >= options[:crop][0] && addr <= options[:crop][1]
+            else
+              fail 'crop option can only be array of size 1 or 2'
+          end
+        end
+        data = cropped_data
+      end
+
       if options[:flip_endianness] || options[:endianness_change]
         data.map do |v|
           [v[0], flip_endianness(v[1], 4)]
