@@ -21,6 +21,28 @@ describe "SRecord" do
     ]
   end
 
+  it "to_a method works with partial word" do
+    @srec2 = OrigenMemoryImage.new("examples/srec2.s19")
+    @srec2.to_a.should == [
+      [1056964640, 0x18F09FE5], [1056964644, 418422757], [1056964648, 418422757],
+      [1056964652, 418422757], [1056964656, 418422757], [1056964660, 15737059],
+      [1056964664, 351313893], [1056964668, 351313893], [1056965232, 4094033983],
+      [1056965236, 270598208], [1056965240, 7864320], [1056966064, 1609629488],
+      [1056966068, 457771104], [1056966072, 1609629488], [1056966076, 440993888],
+      [1056966384, 1883701248]
+    ]
+  end
+
+  it "code_start_address method works with 3-byte address start" do
+    @srec2 = OrigenMemoryImage.new("examples/srec2.s19")
+    @srec2.start_address.should == 0x000410
+  end
+
+  it "code_start_address method works with 2-byte address start" do
+    @srec3 = OrigenMemoryImage.new("examples/srec3.s19")
+    @srec3.start_address.should == 0x0410
+  end
+
   it "data_width_in_bytes option works" do
     data = @srec.to_a(data_width_in_bytes: 2)
     data[0].should == [1056964640, 0x18F0]
@@ -52,5 +74,6 @@ describe "SRecord" do
       [1056964664, 351313893], [1056964668, 351313893], [1056965232, 4094033983],
       [1056965236, 270598208], [1056965240, 2013265983]
     ]
+    lambda { @srec.to_a(crop: [1056964660,1056965240,22]) }.should raise_error
   end
 end
