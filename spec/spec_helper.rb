@@ -22,6 +22,7 @@ require "origen"
 
 require "rspec/legacy_formatters"
 require "#{Origen.top}/spec/format/origen_formatter"
+require "origen_memory_image"
 
 if RUBY_VERSION >= '2.0.0'
   require "byebug"

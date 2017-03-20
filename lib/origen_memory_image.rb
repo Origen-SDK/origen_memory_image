@@ -1,8 +1,12 @@
 require 'origen'
 require_relative '../config/application.rb'
-require_relative '../config/environment.rb'
 
 module OrigenMemoryImage
+  autoload :Base, 'origen_memory_image/base'
+  autoload :SRecord, 'origen_memory_image/s_record'
+  autoload :Hex, 'origen_memory_image/hex'
+  autoload :Binary, 'origen_memory_image/binary'
+
   def self.new(file, options = {})
     unless options[:source] == String
       file = Origen.file_handler.clean_path_to(file)
@@ -19,6 +23,12 @@ module OrigenMemoryImage
       snippet = File.foreach(file.to_s).first(1)
     end
     case
+    # Always do the binary first since the others won't be able to process
+    # a binary snippet
+    when options[:type] == :binary || (options[:source] != String && Binary.match?(file))
+      Binary
+    when options[:source] == String && Binary.match?(snippet, true)
+      Binary
     when options[:type] == :srecord || SRecord.match?(snippet)
       SRecord
     when options[:type] == :hex || Hex.match?(snippet)

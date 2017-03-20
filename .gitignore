@@ -4,6 +4,7 @@
 *~
 
 # RGen local files
+/.irb_history
 /.bundle
 /target/.default
 /environment/.default
