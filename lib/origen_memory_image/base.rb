@@ -50,7 +50,7 @@ module OrigenMemoryImage
 
       if options[:flip_endianness] || options[:endianness_change]
         data.map do |v|
-          [v[0], flip_endianness(v[1], 4)]
+          [v[0], flip_endianness(v[1], options[:data_width_in_bytes])]
         end
       else
         data

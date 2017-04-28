@@ -51,6 +51,26 @@ describe "Binary" do
     data.size.should == 24
   end
 
+  it "endianness_change option works with 128-bit data" do
+    data = @bin.to_a(flip_endianness: true)
+    @bin.to_a(data_width_in_bytes: 16).should == [
+      [0x00, 0x1EE0021C_22401BE0_021C2243_18E0021C],
+      [0x10, 0x5A780A43_03E0034B_F7215A78_0A400020], 
+      [0x20, 0x22E08442_22D31FE0_84421FD9_1CE08442],
+      [0x30, 0x002B20D1_03E0012A_01D1002B_1BD00223], 
+      [0x40, 0x2340022A_02D1002B_15D103E0_032A01D1],
+      [0x50, 0x78000018_7C000018_82000018_88000018],
+    ]
+    @bin.to_a(data_width_in_bytes: 16, flip_endianness: true).should == [
+      [0x00, 0x1C02E018_43221C02_E01B4022_1C02E01E],
+      [0x10, 0x2000400A_785A21F7_4B03E003_430A785A], 
+      [0x20, 0x4284E01C_D91F4284_E01FD322_4284E022],
+      [0x30, 0x2302D01B_2B00D101_2A01E003_D1202B00], 
+      [0x40, 0xD1012A03_E003D115_2B00D102_2A024023],
+      [0x50, 0x18000088_18000082_1800007C_18000078],
+    ]
+  end
+
   it "creating from a string works" do
     str = <<-END
       00001101000101010000111100010011
