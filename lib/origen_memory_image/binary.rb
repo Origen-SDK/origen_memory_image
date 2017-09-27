@@ -1,12 +1,13 @@
-require 'ptools'
-
 module OrigenMemoryImage
   class Binary < Base
     def self.match?(file, snippet = false)
       if snippet
         file.all? { |l| l.strip =~ /^[01]*$/ }
       else
-        File.binary?(file)
+        # Replicated the relevant code from the ptools GEM to detect a binary file
+        s = (File.read(file, 4096) || '')
+        s = s.encode('US-ASCII', undef: :replace).split(//)
+        ((s.size - s.grep(' '..'~').size) / s.size.to_f) > 0.3
       end
     end
 
