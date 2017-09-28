@@ -4,10 +4,9 @@ module OrigenMemoryImage
       if snippet
         file.all? { |l| l.strip =~ /^[01]*$/ }
       else
-        # Replicated the relevant code from the ptools GEM to detect a binary file
-        s = (File.read(file, 4096) || '')
-        s = s.encode('US-ASCII', undef: :replace).split(//)
-        ((s.size - s.grep(' '..'~').size) / s.size.to_f) > 0.3
+        # detect whether the data is mostly not alpha numeric
+        filedata = (File.read(file, 256) || '')
+        (filedata.gsub(/\s+/, '').gsub(/\w/, '').length.to_f / filedata.length.to_f) > 0.3
       end
     end
 
