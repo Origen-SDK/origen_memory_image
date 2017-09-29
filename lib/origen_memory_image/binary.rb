@@ -1,12 +1,12 @@
-require 'ptools'
-
 module OrigenMemoryImage
   class Binary < Base
     def self.match?(file, snippet = false)
       if snippet
         file.all? { |l| l.strip =~ /^[01]*$/ }
       else
-        File.binary?(file)
+        # detect whether the data is mostly not alpha numeric
+        filedata = (File.read(file, 256) || '')
+        (filedata.gsub(/\s+/, '').gsub(/\w/, '').length.to_f / filedata.length.to_f) > 0.3
       end
     end
 
