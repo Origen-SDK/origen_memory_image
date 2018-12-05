@@ -4,6 +4,8 @@
 *~
 
 # RGen local files
+/tmp
+/.byebug_history
 /.irb_history
 /.bundle
 /target/.default

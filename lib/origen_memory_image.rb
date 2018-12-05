@@ -6,6 +6,7 @@ module OrigenMemoryImage
   autoload :SRecord, 'origen_memory_image/s_record'
   autoload :Hex, 'origen_memory_image/hex'
   autoload :Binary, 'origen_memory_image/binary'
+  autoload :IntelHex, 'origen_memory_image/intel_hex'
 
   def self.new(file, options = {})
     unless options[:source] == String
@@ -31,6 +32,8 @@ module OrigenMemoryImage
       Binary
     when options[:type] == :srecord || SRecord.match?(snippet)
       SRecord
+    when options[:type] == :intel_hex || IntelHex.match?(snippet)
+      IntelHex
     when options[:type] == :hex || Hex.match?(snippet)
       Hex
     else
