@@ -10,6 +10,7 @@ module OrigenMemoryImage
       @start_address ||= begin
         addrs = []
         lines.each do |line|
+          line = line.strip
           if start_linear_address?(line)
             addrs << decode(line)[:data].to_i(16)
           end
@@ -22,12 +23,15 @@ module OrigenMemoryImage
 
     def decode(line)
       d = {}
-      line =~ /^:([0-9A-Fa-f]{2})([0-9A-Fa-f]{4})(\d\d)([0-9A-Fa-f]+)([0-9A-Fa-f]{2})$/
-      d[:byte_count] = Regexp.last_match(1).to_i(16)
-      d[:address] = Regexp.last_match(2).to_i(16)
-      d[:record_type] = Regexp.last_match(3).to_i(16)
-      d[:data] = Regexp.last_match(4)
-      d[:checksum] = Regexp.last_match(5).to_i(16)
+      if line =~ /^:([0-9A-Fa-f]{2})([0-9A-Fa-f]{4})(\d\d)([0-9A-Fa-f]+)([0-9A-Fa-f]{2})$/
+        d[:byte_count] = Regexp.last_match(1).to_i(16)
+        d[:address] = Regexp.last_match(2).to_i(16)
+        d[:record_type] = Regexp.last_match(3).to_i(16)
+        d[:data] = Regexp.last_match(4)
+        d[:checksum] = Regexp.last_match(5).to_i(16)
+      else
+        fail "Invalid line encountered in Intel Hex formatted file: #{line}"
+      end
       d
     end
 
@@ -65,6 +69,7 @@ module OrigenMemoryImage
 
       result = []
       lines.each do |line|
+        line = line.strip
         if extended_segment_address?(line)
           @segment_address = decode(line)[:data].to_i(16) * 16
 
