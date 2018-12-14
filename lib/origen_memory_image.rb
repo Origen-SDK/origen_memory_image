@@ -21,7 +21,7 @@ module OrigenMemoryImage
     if options[:source] == String
       snippet = file.split("\n")
     else
-      snippet = File.foreach(file.to_s).first(1)
+      snippet = File.foreach(file.to_s).first(10)
     end
     case
     # Always do the binary first since the others won't be able to process
