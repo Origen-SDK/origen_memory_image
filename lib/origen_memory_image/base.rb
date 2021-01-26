@@ -8,6 +8,7 @@ module OrigenMemoryImage
       else
         @file = file
       end
+      @ljust_partial_data = options[:ljust_partial_data]
     end
 
     # Returns the code execution start address as an int

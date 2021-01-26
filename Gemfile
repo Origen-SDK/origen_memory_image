@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+gem "rspec", "~>3"
+gem "rspec-legacy_formatters", "~>1"
+
 # Specify your gem's dependencies in memory_image.gemspec
 gemspec
 
