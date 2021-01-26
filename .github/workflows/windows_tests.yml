@@ -4,7 +4,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest]
         ruby-version: [2.5, 2.6]
 
     runs-on: ${{ matrix.os }}
@@ -31,5 +31,3 @@ jobs:
       run: origen m debug
     - name: Run Spec tests
       run: origen specs -c
-    - name: Verify Building website
-      run: origen web compile --no-serve
