@@ -58,6 +58,25 @@ my_srec = OrigenMemoryImage.new("source_files/test_atd.abs.S19")
 my_hex  = OrigenMemoryImage.new("source_files/math.hex")
 ~~~
 
+By default any partial data words are right justified. Change this behavior to left justified like this:
+
+~~~ruby
+my_srec = OrigenMemoryImage.new("source_files/test_atd.abs.S19", ljust_partial_data: true)
+my_hex  = OrigenMemoryImage.new("source_files/math.hex", ljust_partial_data: true)
+~~~
+
+Partial data example:
+
+~~~
+0304FE
+
+# Default interpretation into 32-bit word:
+0x0003_04FE
+
+# Left justified interpretation into 32-bit word:
+0x0304_FE00
+~~~
+
 Memory images can also be created directly from a string:
 
 ~~~ruby

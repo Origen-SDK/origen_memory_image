@@ -42,6 +42,20 @@ describe "Hex" do
     ]
   end
 
+  it "to_a method works with partial word left justified" do
+    @hex3 = OrigenMemoryImage.new("examples/hex3.hex", ljust_partial_data: true)
+    @hex3.to_a.should == [
+      [0x18000000, 0x1EE0021C], [0x18000004, 0x22401BE0], [0x18000008, 0x021C2243],
+      [0x1800000C, 0x18E0021C], [0x18000010, 0x5A780A43], [0x18000014, 0x03E0034B],
+      [0x18000018, 0xF7215A78], [0x1800001C, 0x0A400020], [0x18000020, 0x22E08442],
+      [0x18000024, 0x22D31FE0], [0x18000028, 0x84421FD9], [0x1800002C, 0x1CE08442],
+      [0x180000E0, 0x002B20D1], [0x180000E4, 0x03E0012A], [0x180000E8, 0x01D1002B],
+      [0x180000EC, 0x1BD00223], [0x180000F0, 0x2340022A], [0x180000F4, 0x02D1002B],
+      [0x180000F8, 0x15D103E0], [0x180000FC, 0x032A01D1], [0x180001F0, 0x78000018],
+      [0x180001F4, 0x7C000000],
+    ]
+  end
+
   it "data_width_in_bytes option works" do
     data = @hex.to_a(data_width_in_bytes: 2)
     data[0].should == [0x18000000, 0x1EE0]

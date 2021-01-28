@@ -33,6 +33,18 @@ describe "SRecord" do
     ]
   end
 
+  it "to_a method works with partial word left justified" do
+    @srec2 = OrigenMemoryImage.new("examples/srec2.s19", ljust_partial_data: true)
+    @srec2.to_a.should == [
+      [1056964640, 0x18F09FE5], [1056964644, 418422757], [1056964648, 418422757],
+      [1056964652, 418422757], [1056964656, 418422757], [1056964660, 15737059],
+      [1056964664, 351313893], [1056964668, 351313893], [1056965232, 4094033983],
+      [1056965236, 270598208], [1056965240, 2013265920], [1056966064, 1609629488],
+      [1056966068, 457771104], [1056966072, 1609629488], [1056966076, 440993888],
+      [1056966384, 1883701248]
+    ]
+  end
+
   it "code_start_address method works with 3-byte address start" do
     @srec2 = OrigenMemoryImage.new("examples/srec2.s19")
     @srec2.start_address.should == 0x000410

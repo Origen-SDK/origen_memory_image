@@ -202,7 +202,11 @@ module OrigenMemoryImage
           end
           # If a partial word is left over
           if (remainder = data.length % (2 * options[:data_width_in_bytes])) > 0
-            result << [addr, data[data.length - remainder..data.length].to_i(16)]
+            if @ljust_partial_data
+              result << [addr, data[data.length - remainder..data.length].ljust(options[:data_width_in_bytes] * 2, '0').to_i(16)]
+            else
+              result << [addr, data[data.length - remainder..data.length].to_i(16)]
+            end
           end
         end
       end
