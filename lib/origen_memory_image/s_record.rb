@@ -170,6 +170,8 @@ module OrigenMemoryImage
             end
           end
         end
+        # if no start_address record is found, return nil
+        nil
       end
     end
 
