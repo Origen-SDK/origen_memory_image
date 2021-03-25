@@ -181,7 +181,7 @@ module OrigenMemoryImage
             lowest_address = addr if addr < lowest_address
           end
         end
-        # if no start_address record is found, return nil
+        # if no start_address record is found, return lowest address
         lowest_address
       end
     end
@@ -208,10 +208,6 @@ module OrigenMemoryImage
           addr_matcher = '\w\w' * (1 + type)
           line.strip =~ /^S\d\w\w(#{addr_matcher})(\w*)\w\w$/   # $1 = address, $2 = data
           addr = Regexp.last_match[1].to_i(16)
-          unless @start_record_found
-            @start_address ||= addr
-            @start_address = addr if addr < @start_address
-          end
           data = Regexp.last_match[2]
           data_matcher = '\w\w' * options[:data_width_in_bytes]
           data.scan(/#{data_matcher}/).each do |data_packet|
