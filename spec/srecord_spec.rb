@@ -9,6 +9,11 @@ describe "SRecord" do
   it "code_start_address method works" do
     @srec.start_address.should == 0x3F000410
   end
+  
+  it "code start address is accurate when to_a is called first" do
+    @srec.to_a
+    @srec.start_address.should == 0x3F000410
+  end
 
   it "to_a method works" do
     @srec.to_a.should == [
@@ -87,5 +92,10 @@ describe "SRecord" do
       [1056965236, 270598208], [1056965240, 2013265983]
     ]
     lambda { @srec.to_a(crop: [1056964660,1056965240,22]) }.should raise_error
+  end
+  
+  it "returns lowest address when start record is missing" do
+    @srec_no_start = OrigenMemoryImage.new("examples/srec1_no_start.s19")
+    @srec_no_start.start_address.should == 0x3F000020
   end
 end

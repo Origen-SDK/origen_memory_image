@@ -20,7 +20,8 @@ end
 
 require "origen"
 
-require "rspec/legacy_formatters"
+# remove legacy_formatters to prevent crash on test fail
+# require "rspec/legacy_formatters"
 require "#{Origen.top}/spec/format/origen_formatter"
 require "origen_memory_image"
 

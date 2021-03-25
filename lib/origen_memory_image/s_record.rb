@@ -156,9 +156,11 @@ module OrigenMemoryImage
     end
 
     def start_address
+      lowest_address = nil
       @start_address ||= begin
         lines.each do |line|
           if line =~ /^S([789])(.*)/
+            @start_record_found = true
             type = Regexp.last_match[1]
             case type
             when '7'
@@ -169,9 +171,18 @@ module OrigenMemoryImage
               return line.slice(4, 4).to_i(16)
             end
           end
+          if line =~ /^S([1-3])/
+            type = Regexp.last_match[1].to_i(16)    # S-record type, 1-3
+            # Set the matcher to capture x number of bytes dependent on the s-rec type
+            addr_matcher = '\w\w' * (1 + type)
+            line.strip =~ /^S\d\w\w(#{addr_matcher})(\w*)\w\w$/   # $1 = address, $2 = data
+            addr = Regexp.last_match[1].to_i(16)
+            lowest_address ||= addr
+            lowest_address = addr if addr < lowest_address
+          end
         end
         # if no start_address record is found, return nil
-        nil
+        lowest_address
       end
     end
 
@@ -185,6 +196,9 @@ module OrigenMemoryImage
         data_width_in_bytes: 4
       }.merge(options)
 
+      # guarantee that the start_address will be the jump address if provided
+      start_address
+
       result = []
       lines.each do |line|
         # Only if the line is an s-record with data...
@@ -194,8 +208,10 @@ module OrigenMemoryImage
           addr_matcher = '\w\w' * (1 + type)
           line.strip =~ /^S\d\w\w(#{addr_matcher})(\w*)\w\w$/   # $1 = address, $2 = data
           addr = Regexp.last_match[1].to_i(16)
-          @start_address ||= addr
-          @start_address = addr if addr < @start_address
+          unless @start_record_found
+            @start_address ||= addr
+            @start_address = addr if addr < @start_address
+          end
           data = Regexp.last_match[2]
           data_matcher = '\w\w' * options[:data_width_in_bytes]
           data.scan(/#{data_matcher}/).each do |data_packet|
