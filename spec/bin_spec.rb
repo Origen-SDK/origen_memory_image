@@ -101,4 +101,8 @@ describe "Binary" do
       [0x3C, 0x1BD00223], [0x40, 0x2340022A], [0x44, 0x02D1002B],
     ]
   end
+  
+  it "has_start_record method works" do
+    @bin.has_start_record.should == false
+  end
 end

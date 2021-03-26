@@ -98,4 +98,11 @@ describe "SRecord" do
     @srec_no_start = OrigenMemoryImage.new("examples/srec1_no_start.s19")
     @srec_no_start.start_address.should == 0x3F000020
   end
+  
+  it "has_start_record method works" do
+    @srec.has_start_record.should == true
+    OrigenMemoryImage.new("examples/srec2.s19").has_start_record.should == true
+    OrigenMemoryImage.new("examples/srec3.s19").has_start_record.should == true
+    OrigenMemoryImage.new("examples/srec1_no_start.s19").has_start_record.should == false
+  end
 end

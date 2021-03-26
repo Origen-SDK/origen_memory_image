@@ -182,6 +182,7 @@ module OrigenMemoryImage
           end
         end
         # if no start_address record is found, return lowest address
+        @start_record_found = false
         lowest_address
       end
     end
@@ -197,7 +198,7 @@ module OrigenMemoryImage
       }.merge(options)
 
       # guarantee that the start_address will be the jump address if provided
-      start_address
+      start_address unless @start_address
 
       result = []
       lines.each do |line|
