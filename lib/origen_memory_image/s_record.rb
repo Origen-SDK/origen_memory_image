@@ -156,6 +156,11 @@ module OrigenMemoryImage
     end
 
     def start_address
+      if @call_order_warn
+        Origen.log.warn 'Previously srec.start_address returned the lowest address when to_a was called first. Now the start record is always returned if present.'
+        @call_order_warn = false
+      end
+
       lowest_address = nil
       @start_address ||= begin
         lines.each do |line|
@@ -198,7 +203,10 @@ module OrigenMemoryImage
       }.merge(options)
 
       # guarantee that the start_address will be the jump address if provided
-      start_address unless @start_address
+      if @start_address.nil?
+        start_address
+        @call_order_warn = @start_record_found ? true : false
+      end
 
       result = []
       lines.each do |line|
