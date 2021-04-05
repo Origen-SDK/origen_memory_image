@@ -49,4 +49,10 @@ describe "IntelHex" do
     ]    
   end
 
+  it "has_start_record method works" do
+    hex = OrigenMemoryImage.new("examples/intel1.hex")
+    hex.has_start_record.should == false
+    hex = OrigenMemoryImage.new("examples/intel2.hex")
+    hex.has_start_record.should == false
+  end
 end

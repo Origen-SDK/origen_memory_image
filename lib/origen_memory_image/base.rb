@@ -16,6 +16,13 @@ module OrigenMemoryImage
       fail "#{self.class} has not implemented the start_address method!"
     end
 
+    # Returns true if a start (jump address) record exists
+    def has_start_record
+      start_address unless @start_address
+      @start_record_found = false if @start_record_found.nil?
+      @start_record_found
+    end
+
     # Returns the s-record as an array of addresses and data
     #
     # @param [hash] options, allows the selection of endianness swapping - ie the output will have the endianness changed

@@ -99,4 +99,9 @@ describe "Hex" do
       [0x180000EC, 0x1BD00223], [0x180000F0, 0x2340022A], [0x180000F4, 0x02D1002B],
     ]
   end
+  
+  it "has_start_record method works" do
+    @hex.has_start_record.should == false
+    OrigenMemoryImage.new("examples/hex3.hex").has_start_record.should == false
+  end
 end
